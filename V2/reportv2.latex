@@ -1,0 +1,393 @@
+\documentclass[journal]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{graphicx} % For including images
+\geometry{a4paper, margin=1in}
+
+% Configure listings package for code display
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  frame=single,
+  language=C,
+  numbers=left,
+  numberstyle=\tiny,
+  showspaces=false,
+  showstringspaces=false,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{red},
+  tabsize=4
+}
+
+% Title, author, and date
+\title{Ferry Tour Simulation: A Multithreaded Vehicle Transportation System with Educational Insights into Concurrency and Optimization}
+
+\author{Furkan Bulut,~\IEEEmembership{Undergraduate Student,}
+        \\Department of Computer Engineering, Faculty of Engineering, Manisa Celal Bayar University, Manisa, Turkey\\
+        Email: 210316011@ogr.cbu.edu.tr
+        \thanks{Furkan Bulut is an undergraduate student with the Department of Computer Engineering, Faculty of Engineering, Manisa Celal Bayar University, Manisa, Turkey (e-mail: 210316011@ogr.cbu.edu.tr).}
+}
+
+\date{June 8, 2025}
+
+\begin{document}
+
+% Generate title page
+\maketitle
+
+% Abstract section
+\begin{abstract}
+This paper presents a multithreaded ferry simulation implemented in C using POSIX threads to model vehicle transportation across two city sides. It serves as a practical system and an educational tool for understanding concurrency, synchronization, and optimization. The system manages 30 vehicles (12 cars, 10 minibuses, 8 trucks) with capacities of 1, 2, and 4 units, respectively, using a ferry with a 20-unit capacity. Vehicles start on random sides, pass through four tolls (two per side), and complete round-trips, with mutexes and semaphores ensuring thread safety. Dynamic programming optimizes ferry departures, and real-time visualization aids monitoring. Tested on a Linux Mint 22.1 system with an Intel i7-11800H CPU, the simulation ran for 88~s with 12 trips but faced issues like logging inaccuracies (e.g., 0\% capacity for non-empty trips) and a 33.3\% empty trip rate. This paper details the problem, solution logic, system design, and performance analysis, offering insights for learners and proposing enhancements for scalability, fairness, and real-world applicability.
+\end{abstract}
+
+% Keywords section
+\begin{IEEEkeywords}
+Multithreading, Synchronization, Ferry Simulation, Operating Systems, C Programming, Concurrency, Dynamic Programming, Real-Time Visualization
+\end{IEEEkeywords}
+
+% Introduction section
+\section{Introduction}
+\IEEEPARstart{T}{he} Ferry Tour Simulation models a real-world transportation system where vehicles (cars, minibuses, trucks) travel between two city sides (Side-A and Side-B) via a ferry. Designed to teach \textit{multithreading}, \textit{synchronization}, and \textit{optimization}, it also provides a framework for analyzing concurrent task management. Implemented in C with POSIX threads, it simulates 30 vehicles—12 cars (1 unit), 10 minibuses (2 units), and 8 trucks (4 units)—using a ferry with a 20-unit capacity. Vehicles start on randomly assigned sides, navigate one of four tolls (two per side), and complete round-trips. Mutexes and semaphores ensure thread safety, dynamic programming optimizes ferry departures, and a visualization thread updates every 0.5~s. Logging tracks performance, but issues like incorrect capacity reporting (e.g., 0\% for non-empty trips) and a 33.3\% empty trip rate require improvement.
+
+Tested on a Linux Mint 22.1 (x86\_64) system with a TULPAR T7 V20.4 laptop (11th Gen Intel i7-11800H CPU, 16 cores @ 4.6~GHz, NVIDIA GeForce RTX 3060 Mobile GPU, 15,731~MiB memory, Kernel 6.8.0-60-generic, Cinnamon 6.4.8), the simulation ran for 88~s with 12 trips, showing robust concurrency but needing enhancements in logging and efficiency.
+
+This paper aims to:
+\begin{itemize}
+    \item Explain the ferry simulation problem and challenges clearly.
+    \item Detail solution logic and implementation techniques.
+    \item Analyze performance metrics and limitations.
+    \item Propose improvements for scalability, fairness, and applicability.
+\end{itemize}
+
+The paper is organized as follows: Section~\ref{sec:problem} defines the problem. Section~\ref{sec:solution} outlines the solution logic. Section~\ref{sec:design} details system design and tools. Section~\ref{sec:testing} describes the testing methodology. Section~\ref{sec:results} presents performance results. Section~\ref{sec:discussion} discusses findings and improvements. Section~\ref{sec:conclusion} summarizes insights and future work.
+
+% Problem Definition section
+\section{Problem Definition}
+\label{sec:problem}
+
+The Ferry Tour Simulation models a ferry service connecting two city sides across a river. Vehicles travel to the opposite side and return, completing a round-trip. The ferry has limited capacity, and vehicles queue at toll booths before boarding. The challenge is to simulate this system efficiently, ensuring all vehicles complete journeys without conflicts, with minimal waiting and optimal ferry utilization.
+
+\subsection{Problem Details}
+\begin{itemize}
+    \item \textbf{Vehicles}: 30 vehicles with specific capacities:
+        \begin{itemize}
+            \item 12 cars (1 unit each).
+            \item 10 minibuses (2 units each).
+            \item 8 trucks (4 units each).
+        \end{itemize}
+        Vehicles start on either Side-A or Side-B (randomly assigned) and complete a round-trip.
+    \item \textbf{Ferry}: A single ferry with a 20-unit capacity, operating between Side-A and Side-B. It waits for vehicles, travels (2–9~s), unloads, and repeats.
+    \item \textbf{Tolls}: Four tolls (two per side), processing one vehicle at a time for 0.1~s.
+    \item \textbf{Constraints}:
+        \begin{itemize}
+            \item The ferry departs when full (20 units), after 2.5~s, or if no vehicles are waiting.
+            \item Vehicles wait 1–5~s at their destination before returning.
+            \item The first return trip from Side-B is empty for initial coordination.
+            \item The simulation ends when all vehicles complete round-trips and the ferry is on Side-A.
+        \end{itemize}
+\end{itemize}
+
+\subsection{Challenges}
+\begin{itemize}
+    \item \textbf{Concurrency}: Managing 30 vehicles and the ferry requires concurrent tasks, like cars on a busy highway.
+    \item \textbf{Synchronization}: Shared resources (tolls, ferry capacity) need coordination to avoid conflicts, such as simultaneous boarding.
+    \item \textbf{Optimization}: Deciding ferry departure times (e.g., waiting for more vehicles or leaving partially full) resembles packing a suitcase efficiently.
+    \item \textbf{Monitoring}: Real-time visualization and logging must track system state without slowing execution.
+    \item \textbf{Error Handling}: Tracking times and capacities in a concurrent environment is error-prone, such as incorrect log entries.
+\end{itemize}
+
+This simulation is an educational tool for learning operating system concepts, requiring threading, synchronization, and optimization techniques.
+
+% Solution Logic section
+\section{Solution Logic}
+\label{sec:solution}
+
+The solution breaks the problem into steps, each addressing a core simulation aspect, explained with beginner-friendly analogies.
+
+\subsection{Step 1: Modeling Vehicles and Ferry}
+Each vehicle is a “worker” with tasks (pass toll, board ferry, cross, return), assigned a \textit{thread} for independent operation. The ferry is a single thread, like a bus driver managing boarding and travel. Data structures store:
+\begin{itemize}
+    \item \textbf{Vehicle Data}: ID, type (car, minibus, truck), capacity (1, 2, or 4), current side, and timing metrics (e.g., wait time).
+    \item \textbf{Ferry Data}: Current side, used capacity (0–20 units), and boarded vehicle list.
+\end{itemize}
+
+\subsection{Step 2: Handling Tolls}
+Vehicles pass tolls before boarding, like paying at a gate. Each side has two tolls, processing one vehicle at a time. \textit{Semaphores} act as traffic lights for exclusivity. A vehicle:
+\begin{enumerate}
+    \item Selects a toll randomly on its side.
+    \item Waits for the toll to be free (semaphore “green”).
+    \item Processes for 0.1~s (via \texttt{usleep(100000)}).
+    \item Releases the toll (semaphore “red”).
+\end{enumerate}
+
+\subsection{Step 3: Boarding the Ferry}
+After passing the toll, vehicles queue to board, requiring:
+\begin{itemize}
+    \item Ferry on the vehicle’s side (\texttt{ferry\_side == v->port}).
+    \item Sufficient capacity (\texttt{ferry\_capacity + v->capacity <= 20}).
+    \item Proper timing (Side-B returnees wait for the ferry’s cycle, \texttt{current\_trip\_id >= v->b\_trip\_no + 2}).
+\end{itemize}
+A \textit{mutex} ensures one vehicle boards at a time, updating \texttt{ferry\_capacity} and \texttt{boarded\_ids} to prevent overbooking.
+
+\subsection{Step 4: Ferry Operations}
+The ferry departs when:
+\begin{itemize}
+    \item Full (\texttt{ferry\_capacity >= 20}).
+    \item No vehicles are waiting (\texttt{vehicles\_waiting == 0}).
+    \item 2.5~s have elapsed (\texttt{wait\_counter >= 10}, checked every 0.25~s).
+    \item First Side-B return trip (\texttt{is\_first\_return}, empty).
+\end{itemize}
+It travels for 2–9~s (\texttt{2 + (rand() \% 8)}), logs the trip, switches sides (\texttt{ferry\_side = 1 - ferry\_side}), unloads vehicles, and resets capacity.
+
+\subsection{Step 5: Optimizing Departures}
+To avoid waiting when the remaining capacity cannot be filled (e.g., 5 units needed but only a 4-unit truck available), \textit{dynamic programming} checks if waiting vehicles (on the ferry’s side, not returned, not boarded twice) can fill the capacity. This resembles fitting items into a bag. A boolean array tracks feasible capacities (0 to 20 units). If filling is impossible, the ferry departs early to reduce idle time.
+
+\subsection{Step 6: Visualization and Logging}
+A visualization thread updates the console every 0.5~s, showing:
+\begin{itemize}
+    \item Progress (\texttt{total\_returned / 30 * 100}\%).
+    \item Elapsed time (\texttt{time(NULL) - sim\_start\_time}).
+    \item Vehicles on Side-A, Side-B, and the ferry (colored icons).
+    \item Ferry side and load.
+\end{itemize}
+Logging saves trip details (ID, direction, duration, vehicles) and vehicle metrics (wait times, ferry times, round-trip times) to \texttt{ferry\_log.txt}. Errors occur if variables like \texttt{ferry\_start/end} are uninitialized.
+
+\subsection{Step 7: Termination}
+The simulation ends when all 30 vehicles complete round-trips (\texttt{total\_returned >= 30}) and the ferry is on Side-A (\texttt{ferry\_side == SIDE\_A}). Vehicles mark themselves as “returned” after their second trip.
+
+% System Design and Implementation section
+\section{System Design and Implementation}
+\label{sec:design}
+
+This section details the tools, components, and implementation, balancing technical precision with educational clarity.
+
+\subsection{Programming Environment}
+The simulation uses \textit{C} for speed and low-level control, ideal for operating system projects. \textit{POSIX threads} (pthreads) enable concurrency for vehicles, ferry, and visualization threads. The \texttt{rand()} function assigns random sides (\texttt{rand() \% 2}) and trip durations (\texttt{2 + (rand() \% 8)}).
+
+\subsection{System Components}
+\begin{itemize}
+    \item \textbf{Vehicles}: 30 threads, each running \texttt{vehicle\_func}:
+        \begin{itemize}
+            \item Selects a toll (\texttt{rand() \% TOLL\_PER\_SIDE} for Side-A, \texttt{TOLL\_PER\_SIDE + (rand() \% TOLL\_PER\_SIDE)} for Side-B).
+            \item Waits at the toll, boards the ferry, crosses, waits 1–5~s, and returns.
+            \item Tracks timing (\texttt{wait\_start\_a/b}, \texttt{ferry\_end\_a/b}).
+        \end{itemize}
+    \item \textbf{Ferry}: A thread (\texttt{ferry\_func}) that:
+        \begin{itemize}
+            \item Manages boarding, checking capacity and timing.
+            \item Travels, updates \texttt{ferry\_side}, and unloads.
+            \item Logs trips via \texttt{log\_trip}.
+        \end{itemize}
+    \item \textbf{Tolls}: Four semaphores (\texttt{toll\_sem[4]}, initialized to 1), ensuring one vehicle per toll using \texttt{sem\_wait} and \texttt{sem\_post}.
+    \item \textbf{Visualization Thread}: Runs \texttt{print\_state\_thread}, refreshing the console every 0.5~s with \texttt{\textbackslash 033[H\textbackslash 033[J} for clearing.
+\end{itemize}
+
+\subsection{Synchronization Mechanisms}
+Concurrency risks, like race conditions, are mitigated with:
+\begin{itemize}
+    \item \textbf{Mutexes}:
+        \begin{itemize}
+            \item \texttt{boarding\_mutex}: Protects \texttt{ferry\_capacity} and \texttt{boarded\_ids}.
+            \item \texttt{log\_mutex}: Ensures exclusive \texttt{trip\_log} updates.
+            \item \texttt{print\_mutex}: Prevents console output interleaving.
+            \item \texttt{return\_mutex}: Safeguards \texttt{total\_returned}.
+        \end{itemize}
+        Mutexes act like keys, allowing only one thread to access shared data.
+    \item \textbf{Semaphores}: \texttt{toll\_sem[4]} restricts toll access, simpler than mutexes for binary control.
+\end{itemize}
+
+\subsection{Optimization with Dynamic Programming}
+Dynamic programming checks if the ferry’s remaining capacity can be filled, avoiding unnecessary waits. It uses a boolean array (\texttt{dp[0..20]}) initialized with \texttt{dp[0] = true} (empty ferry is feasible). For each eligible vehicle (on the ferry’s side, not returned, not boarded twice), it updates \texttt{dp[j]} for \texttt{j >= vehicle.capacity} if \texttt{dp[j - vehicle.capacity]} is true, marking achievable capacities. The value \texttt{dp[remaining\_capacity]} shows if the target capacity is feasible. This approach, similar to a knapsack problem, checks feasibility but does not maximize capacity (e.g., selecting vehicles for optimal loading). If filling is impossible, the ferry departs early to reduce idle time.
+
+\subsection{Visualization and Logging}
+\begin{itemize}
+    \item \textbf{Visualization}: \texttt{print\_state} clears the console and displays progress, elapsed time, vehicle locations, and ferry status with colored icons (e.g., green for cars). An example output is shown in Fig.~\ref{fig:pic1}.
+    \item \textbf{Logging}: \texttt{write\_log\_file} saves trip details (ID, direction, duration, vehicles, capacity) and vehicle metrics (wait times, ferry times, round-trip times) to \texttt{ferry\_log.txt}. Errors occur if \texttt{ferry\_start/end} or \texttt{ferry\_capacity} are uninitialized.
+\end{itemize}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]{Pic1.png}
+    \caption{Example real-time console output from the ferry simulation, showing vehicle locations, ferry status, and progress.}
+    \label{fig:pic1}
+\end{figure}
+
+\subsection{Implementation Details}
+\begin{itemize}
+    \item \textbf{Data Structures}:
+        \begin{itemize}
+            \item \texttt{Vehicle} struct: ID, type, capacity, port, start port, boarded count, trip numbers, and times.
+            \item \texttt{Trip} struct: Trip ID, direction, duration, vehicle IDs, count, and capacity.
+        \end{itemize}
+    \item \textbf{Main Function}: Initializes vehicles, semaphores, mutexes, and threads, awaits completion (\texttt{pthread\_join}), and cleans up resources.
+\end{itemize}
+
+% Testing Methodology section
+\section{Testing Methodology}
+\label{sec:testing}
+
+The simulation was tested on a Linux Mint 22.1 system to evaluate functionality, performance, and reliability.
+
+\subsection{Test Environment}
+\begin{itemize}
+    \item \textbf{Hardware}: TULPAR T7 V20.4 laptop, Intel i7-11800H CPU (16 cores @ 4.6~GHz), NVIDIA GeForce RTX 3060 Mobile GPU, 15,731~MiB memory.
+    \item \textbf{Software}: Linux Mint 22.1 (x86\_64), Kernel 6.8.0-60-generic, Cinnamon 6.4.8, GCC compiler.
+\end{itemize}
+
+\subsection{Test Procedure}
+\begin{itemize}
+    \item \textbf{Setup}: Initialized 30 vehicles with random sides (\texttt{rand() \% 2}), used a fixed \texttt{srand} seed for reproducibility, and set ferry capacity to 20 units.
+    \item \textbf{Execution}: Ran the simulation once, logging metrics to \texttt{ferry\_log.txt} and monitoring visualization output.
+    \item \textbf{Metrics}: Collected duration, trip count, empty trip rate, wait times, ferry times, round-trip times, and utilization.
+    \item \textbf{Validation}: Checked for race conditions (via mutex/semaphore logs), deadlocks (via responsiveness), and log accuracy (manual inspection).
+\end{itemize}
+
+\subsection{Test Limitations}
+\begin{itemize}
+    \item Single run with fixed seed limits variability analysis.
+    \item Manual log inspection may miss subtle errors.
+    \item Static 30-vehicle set does not test dynamic traffic.
+\end{itemize}
+
+% Results section
+\section{Results}
+\label{sec:results}
+
+The simulation ran for 88~s, completing 12 trips for 30 vehicles. Results from the log highlight successes and issues.
+
+\subsection{Trip Summary}
+\begin{itemize}
+    \item \textbf{Trip 0 (A$\to$B)}: 2~s, 19/20 units (95\%, 6 cars, 5 minibuses, 1 truck).
+    \item \textbf{Trip 1 (B$\to$A)}: 9~s, empty (intentional first return).
+    \item \textbf{Trip 5 (B$\to$A)}: 9~s, 19/20 units (95\%, 7 cars, 5 minibuses).
+    \item \textbf{Trip 6 (A$\to$B)}: 8~s, 20/20 units (100\%, 4 cars, 3 minibuses, 3 trucks).
+    \item \textbf{Trip 8 (A$\to$B)}: 5~s, 5/20 units (25\%, 1 car, 2 minibuses).
+    \item \textbf{Empty Trips}: 4/12 (33.3\%), including Trip 1 and others due to timing mismatches.
+\end{itemize}
+
+\subsection{Vehicle Statistics}
+\begin{itemize}
+    \item \textbf{Wait Times}:
+        \begin{itemize}
+            \item Side-A: 0–19~s (average 8.3~s; Side-B starters: 14.3~s).
+            \item Side-B: 23–61~s (average 33.8~s, due to 1–5~s return delays).
+        \end{itemize}
+    \item \textbf{Ferry Times}:
+        \begin{itemize}
+            \item A$\to$B: 3–10~s (average 6.8~s, some errors like 1,749,339,011~s).
+            \item B$\to$A: 2–12~s (average 9.2~s).
+        \end{itemize}
+    \item \textbf{Round-Trip Times}: 53–83~s (average 61.6~s; Side-A: 56.8~s, Side-B: 66.3~s).
+\end{itemize}
+
+\subsection{Ferry Utilization}
+\begin{itemize}
+    \item \textbf{Reported}: 52.1\% average, skewed by errors (e.g., 0\% for non-empty trips).
+    \item \textbf{Actual}: 80–90\% for non-empty trips (e.g., 19/20 in Trip 0).
+    \item \textbf{Starvation Risk}: Max/min wait ratio = 61/9 $\approx$ 6.78, indicating unfair waits for smaller vehicles.
+\end{itemize}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]{Pic2.png}
+    \caption{Summary of simulation statistics, including trip details, vehicle wait times, ferry times, and round-trip times.}
+    \label{fig:pic2}
+\end{figure}
+
+\begin{table}[t]
+\centering
+\caption{Summary of Simulation Performance Metrics}
+\label{tab:performance}
+\begin{tabular}{l c}
+\toprule
+Metric & Value \\
+\midrule
+Total Vehicles & 30 \\
+Ferry Capacity & 20 units \\
+Simulation Duration & 88~s \\
+Total Trips & 12 \\
+Empty Trips & 4 (33.3\%) \\
+Average Wait Time (Side-A) & 8.3~s \\
+Average Wait Time (Side-B) & 33.8~s \\
+Average Round-Trip Time & 61.6~s \\
+Actual Ferry Utilization & 80–90\% (non-empty trips) \\
+Starvation Risk & High (Ratio 6.78) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% Discussion section
+\section{Discussion}
+\label{sec:discussion}
+
+The simulation completes 30 round-trips in 88~s with 12 trips, serving as an educational tool for multithreading, synchronization, and optimization, while revealing practical challenges.
+
+\subsection{Strengths}
+\begin{itemize}
+    \item \textbf{Concurrency}: 30 vehicle threads, a ferry thread, and a visualization thread operate seamlessly, with mutexes and semaphores preventing race conditions and deadlocks, like traffic lights at an intersection.
+    \item \textbf{Visualization}: Console updates every 0.5~s provide an intuitive dashboard, similar to a live transit map.
+    \item \textbf{Optimization}: Dynamic programming reduces idle time by checking capacity feasibility, like deciding if a bag can be filled.
+\end{itemize}
+
+\subsection{Limitations}
+\begin{itemize}
+    \item \textbf{Logging Errors}: Incorrect capacity (0\% for non-empty trips) and erroneous times (e.g., 1,749,339,011~s) stem from uninitialized variables (\texttt{ferry\_start/end}) or faulty \texttt{log\_trip} logic.
+    \item \textbf{Empty Trips}: 33.3\% empty trips result from the \texttt{is\_first\_return} rule and Side-B timing mismatches.
+    \item \textbf{Starvation}: Smaller vehicles (cars) wait up to 61~s (ratio 6.78) due to first-come-first-serve boarding, favoring trucks.
+    \item \textbf{Suboptimal Loading}: Dynamic programming checks feasibility but does not maximize capacity, leading to underused trips (e.g., Trip 8: 25\%).
+    \item \textbf{Static Vehicles}: A fixed 30-vehicle set limits real-world applicability.
+\end{itemize}
+
+\subsection{Lessons Learned}
+\begin{itemize}
+    \item \textbf{Synchronization}: Mutexes and semaphores prevent chaos, like traffic rules avoiding collisions.
+    \item \textbf{Logging}: Uninitialized variables cause errors, emphasizing rigorous validation.
+    \item \textbf{Fairness}: First-come-first-serve is inequitable; priority mechanisms are needed.
+    \item \textbf{Optimization}: Dynamic programming is efficient but not optimal, requiring advanced algorithms.
+\end{itemize}
+
+\subsection{Real-World Applicability}
+The simulation models real ferry systems but simplifies traffic dynamics. Its concurrency and synchronization techniques apply to logistics and distributed computing. Limitations like static vehicles and suboptimal loading highlight gaps in real-world applicability.
+
+\subsection{Proposed Improvements}
+\begin{itemize}
+    \item \textbf{Log Accuracy}: Initialize \texttt{ferry\_start/end}, validate \texttt{ferry\_capacity}, and add debug checks.
+    \item \textbf{Empty Trips}: Relax \texttt{is\_first\_return} and synchronize vehicle readiness.
+    \item \textbf{Fair Boarding}: Use a priority queue alternating vehicle types.
+    \item \textbf{Dynamic Arrivals}: Add a thread for random vehicle spawns.
+    \item \textbf{Optimal Loading}: Implement a 0/1 knapsack algorithm to maximize capacity.
+    \item \textbf{Visualization}: Update console every 1~s to reduce CPU load.
+\end{itemize}
+
+% Conclusion section
+\section{Conclusion}
+\label{sec:conclusion}
+
+The Ferry Tour Simulation demonstrates multithreaded vehicle transportation with 30 vehicles across 12 trips in 88~s, using C and POSIX threads. Mutexes, semaphores, and dynamic programming manage concurrency, synchronization, and optimization. Visualization and logging provide feedback, but issues like logging errors, 33.3\% empty trips, and starvation (ratio 6.78) need improvement. Tested on Linux Mint 22.1, it offers a scalable framework with lessons in system design.
+
+For learners, it teaches:
+\begin{itemize}
+    \item Modeling systems with threads.
+    \item Synchronization to avoid conflicts.
+    \item Optimization trade-offs.
+    \item Rigorous testing and logging.
+\end{itemize}
+
+Future work includes implementing proposed improvements, scalability testing, and adding a graphical interface to enhance applicability.
+
+% References section
+\begin{thebibliography}{1}
+\bibitem{ref1}
+A. Silberschatz, P. B. Galvin, and G. Gagne, \textit{Operating System Concepts}, 10th ed. Hoboken, NJ, USA: Wiley, 2018.
+\bibitem{ref2}
+B. W. Kernighan and D. M. Ritchie, \textit{The C Programming Language}, 2nd ed. Englewood Cliffs, NJ, USA: Prentice Hall, 1988.
+\bibitem{ref3}
+W. Stallings, \textit{Operating Systems: Internals and Design Principles}, 9th ed. Upper Saddle River, NJ, USA: Pearson, 2018.
+\end{thebibliography}
+
+\end{document}
