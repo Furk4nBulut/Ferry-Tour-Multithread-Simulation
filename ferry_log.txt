@@ -3,66 +3,66 @@ Total Vehicles: 50 | Ferry Capacity: 50 | Total Trips: 10
 Simulation Duration: 55 seconds
 
 === Trip Summary ===
-Trip 0 [A->B]: 8.00s | Capacity: 0/50 (0.0%) | Vehicles: Ÿ¢ Car[0m3 Ÿ¢ Car[0m1 Ÿ¢ Car[0m2 Ÿ¢ Car[0m4 Ÿ¢ Car[0m6 Ÿ¢ Car[0m5 Ÿ¢ Car[0m9 Ÿ¢ Car[0m7 Ÿ¢ Car[0m11 Ÿ¢ Car[0m8 Ÿ¢ Car[0m12 Ÿ¢ Car[0m10 Ÿ¢ Car[0m13 Ÿ¢ Car[0m15 Ÿ¢ Car[0m14 Ÿ¢ Car[0m20 Ÿ¢ Car[0m21 Ÿ¢ Car[0m16 Ÿ¢ Car[0m23 Ÿ¢ Car[0m17 Ÿ¡ Truck[0m41 Ÿ¢ Car[0m1 Ÿ¢ Car[0m1 ”µ Minibus[0m28 Ÿ¢ Car[0m19 ”µ Minibus[0m30 Ÿ¢ Car[0m22 ”µ Minibus[0m31 Ÿ¢ Car[0m24 ”µ Minibus[0m33 ”µ Minibus[0m26 ”µ Minibus[0m27 ”µ Minibus[0m34 ”µ Minibus[0m29 ”µ Minibus[0m36 ”µ Minibus[0m32 ”µ Minibus[0m37 ”µ Minibus[0m38 
-Trip 1 [B->A]: 5.00s | Capacity: 0/50 (0.0%) | Vehicles: 
-Trip 2 [A->B]: 4.00s | Capacity: 49/50 (98.0%) | Vehicles: Ÿ¢ Car[0m6 ”µ Minibus[0m26 Ÿ¢ Car[0m4 ”µ Minibus[0m33 Ÿ¢ Car[0m23 Ÿ¢ Car[0m19 ”µ Minibus[0m34 Ÿ¢ Car[0m21 Ÿ¢ Car[0m16 Ÿ¢ Car[0m1 Ÿ¢ Car[0m5 Ÿ¢ Car[0m9 
-Trip 3 [B->A]: 8.00s | Capacity: 0/50 (0.0%) | Vehicles: 
-Trip 4 [A->B]: 3.00s | Capacity: 46/50 (92.0%) | Vehicles: Ÿ¡ Truck[0m47 Ÿ¡ Truck[0m44 Ÿ¡ Truck[0m48 ”µ Minibus[0m39 Ÿ¡ Truck[0m43 ”µ Minibus[0m40 Ÿ¡ Truck[0m45 ”µ Minibus[0m35 Ÿ¡ Truck[0m46 Ÿ¡ Truck[0m50 Ÿ¡ Truck[0m41 Ÿ¡ Truck[0m42 Ÿ¡ Truck[0m49 
-Trip 5 [B->A]: 4.00s | Capacity: 0/50 (0.0%) | Vehicles: 
-Trip 6 [A->B]: 2.00s | Capacity: 0/50 (0.0%) | Vehicles: 
-Trip 7 [B->A]: 2.00s | Capacity: 46/50 (92.0%) | Vehicles: Ÿ¡ Truck[0m41 Ÿ¡ Truck[0m50 Ÿ¡ Truck[0m44 ”µ Minibus[0m39 Ÿ¡ Truck[0m43 ”µ Minibus[0m40 ”µ Minibus[0m35 Ÿ¡ Truck[0m42 Ÿ¡ Truck[0m46 Ÿ¡ Truck[0m49 Ÿ¡ Truck[0m48 Ÿ¡ Truck[0m45 Ÿ¡ Truck[0m47 
-Trip 8 [A->B]: 7.00s | Capacity: 0/50 (0.0%) | Vehicles: 
-Trip 9 [B->A]: 4.00s | Capacity: 0/50 (0.0%) | Vehicles: 
+Trip 0 [A->B]: 4.00s | Capacity: 0/50 (0.0%) | Vehicles: Ÿ¢ Car[0m2 Ÿ¢ Car[0m3 Ÿ¢ Car[0m4 Ÿ¢ Car[0m5 Ÿ¢ Car[0m1 Ÿ¢ Car[0m7 Ÿ¢ Car[0m6 Ÿ¢ Car[0m8 Ÿ¢ Car[0m9 Ÿ¢ Car[0m10 Ÿ¢ Car[0m12 Ÿ¢ Car[0m11 Ÿ¢ Car[0m13 Ÿ¢ Car[0m15 Ÿ¢ Car[0m14 Ÿ¢ Car[0m16 Ÿ¢ Car[0m18 Ÿ¢ Car[0m17 Ÿ¢ Car[0m21 Ÿ¢ Car[0m19 ”µ Minibus[0m37 Ÿ¢ Car[0m1 Ÿ¢ Car[0m1 ”µ Minibus[0m30 Ÿ¢ Car[0m25 ”µ Minibus[0m26 ”µ Minibus[0m32 ”µ Minibus[0m33 ”µ Minibus[0m27 ”µ Minibus[0m35 ”µ Minibus[0m31 ”µ Minibus[0m36 ”µ Minibus[0m34 ”µ Minibus[0m37 
+Trip 1 [B->A]: 4.00s | Capacity: 0/50 (0.0%) | Vehicles: 
+Trip 2 [A->B]: 4.00s | Capacity: 0/50 (0.0%) | Vehicles: Ÿ¢ Car[0m9 Ÿ¢ Car[0m7 ”µ Minibus[0m36 Ÿ¢ Car[0m14 Ÿ¢ Car[0m18 Ÿ¢ Car[0m15 ”µ Minibus[0m30 ”µ Minibus[0m35 ”µ Minibus[0m27 ”µ Minibus[0m28 Ÿ¢ Car[0m23 Ÿ¢ Car[0m4 Ÿ¢ Car[0m1 Ÿ¢ Car[0m5 ”µ Minibus[0m29 Ÿ¢ Car[0m10 ”µ Minibus[0m34 Ÿ¢ Car[0m21 Ÿ¢ Car[0m19 ”µ Minibus[0m32 ”µ Minibus[0m35 Ÿ¢ Car[0m3 Ÿ¢ Car[0m1 Ÿ¢ Car[0m11 Ÿ¢ Car[0m6 Ÿ¢ Car[0m2 ”µ Minibus[0m33 Ÿ¢ Car[0m16 Ÿ¢ Car[0m24 Ÿ¢ Car[0m20 Ÿ¢ Car[0m8 Ÿ¢ Car[0m12 
+Trip 3 [B->A]: 9.00s | Capacity: 11/50 (22.0%) | Vehicles: Ÿ¢ Car[0m11 Ÿ¢ Car[0m6 Ÿ¢ Car[0m2 ”µ Minibus[0m33 Ÿ¢ Car[0m16 Ÿ¢ Car[0m24 Ÿ¢ Car[0m20 Ÿ¢ Car[0m8 Ÿ¢ Car[0m12 Ÿ¢ Car[0m17 
+Trip 4 [A->B]: 2.00s | Capacity: 34/50 (68.0%) | Vehicles: Ÿ¡ Truck[0m50 Ÿ¡ Truck[0m46 Ÿ¡ Truck[0m42 Ÿ¡ Truck[0m41 Ÿ¡ Truck[0m44 Ÿ¡ Truck[0m45 Ÿ¡ Truck[0m48 Ÿ¡ Truck[0m43 ”µ Minibus[0m39 
+Trip 5 [B->A]: 9.00s | Capacity: 12/50 (24.0%) | Vehicles: ”µ Minibus[0m38 ”µ Minibus[0m40 Ÿ¡ Truck[0m47 Ÿ¡ Truck[0m49 
+Trip 6 [A->B]: 8.00s | Capacity: 0/50 (0.0%) | Vehicles: 
+Trip 7 [B->A]: 2.00s | Capacity: 34/50 (68.0%) | Vehicles: Ÿ¡ Truck[0m41 Ÿ¡ Truck[0m50 ”µ Minibus[0m39 Ÿ¡ Truck[0m42 Ÿ¡ Truck[0m44 Ÿ¡ Truck[0m45 Ÿ¡ Truck[0m46 Ÿ¡ Truck[0m43 Ÿ¡ Truck[0m48 
+Trip 8 [A->B]: 2.00s | Capacity: 0/50 (0.0%) | Vehicles: 
+Trip 9 [B->A]: 5.00s | Capacity: 0/50 (0.0%) | Vehicles: 
 
 === Vehicle Statistics ===
 ID | Type      | Start | Wait A | Wait B | Ferry A | Ferry B | Round Trip
- 1 | Ÿ¢ Car[0m | A     |    0.0s |    5.0s |    10.0s |     0.0s |     15.0s
- 2 | Ÿ¢ Car[0m | A     |    0.0s |    2.0s |    10.0s |     2.0s |     15.0s
- 3 | Ÿ¢ Car[0m | A     |    0.0s |    3.0s |    10.0s |     1.0s |     15.0s
- 4 | Ÿ¢ Car[0m | A     |    0.0s |    1.0s |    10.0s |     3.0s |     15.0s
- 5 | Ÿ¢ Car[0m | A     |    0.0s |    4.0s |    10.0s |     0.0s |     15.0s
- 6 | Ÿ¢ Car[0m | A     |    0.0s |    0.0s |    10.0s |     4.0s |     15.0s
- 7 | Ÿ¢ Car[0m | A     |    0.0s |    2.0s |    10.0s |     2.0s |     15.0s
- 8 | Ÿ¢ Car[0m | A     |    0.0s |    2.0s |    10.0s |     2.0s |     15.0s
- 9 | Ÿ¢ Car[0m | A     |    0.0s |    3.0s |    10.0s |     0.0s |     15.0s
-10 | Ÿ¢ Car[0m | A     |    0.0s |    3.0s |    10.0s |     1.0s |     15.0s
-11 | Ÿ¢ Car[0m | A     |    0.0s |    2.0s |    10.0s |     2.0s |     15.0s
-12 | Ÿ¢ Car[0m | A     |    0.0s |    0.0s |    10.0s |     3.0s |     15.0s
-13 | Ÿ¢ Car[0m | A     |    0.0s |    0.0s |    10.0s |     3.0s |     15.0s
-14 | Ÿ¢ Car[0m | A     |    1.0s |    1.0s |     9.0s |     2.0s |     15.0s
-15 | Ÿ¢ Car[0m | A     |    0.0s |    1.0s |    10.0s |     3.0s |     15.0s
-16 | Ÿ¢ Car[0m | A     |    0.0s |    5.0s |     9.0s |     0.0s |     15.0s
-17 | Ÿ¢ Car[0m | A     |    0.0s |    2.0s |     9.0s |     2.0s |     15.0s
-18 | Ÿ¢ Car[0m | A     |    0.0s |    0.0s |     9.0s |     3.0s |     15.0s
-19 | Ÿ¢ Car[0m | A     |    0.0s |    5.0s |     9.0s |     0.0s |     15.0s
-20 | Ÿ¢ Car[0m | A     |    1.0s |    2.0s |     9.0s |     2.0s |     15.0s
-21 | Ÿ¢ Car[0m | A     |    0.0s |    3.0s |     9.0s |     0.0s |     15.0s
-22 | Ÿ¢ Car[0m | A     |    0.0s |    0.0s |     9.0s |     3.0s |     15.0s
-23 | Ÿ¢ Car[0m | A     |    0.0s |    2.0s |     9.0s |     1.0s |     15.0s
-24 | Ÿ¢ Car[0m | A     |    0.0s |    3.0s |     9.0s |     1.0s |     15.0s
-25 | Ÿ¢ Car[0m | A     |    0.0s |    1.0s |     9.0s |     2.0s |     15.0s
-26 | ”µ Minibus[0m | A     |    0.0s |    1.0s |     9.0s |     3.0s |     15.0s
-27 | ”µ Minibus[0m | A     |    0.0s |    1.0s |     9.0s |     3.0s |     15.0s
-28 | ”µ Minibus[0m | A     |    0.0s |    4.0s |     9.0s |     1.0s |     15.0s
-29 | ”µ Minibus[0m | A     |    0.0s |    0.0s |     9.0s |     3.0s |     15.0s
-30 | ”µ Minibus[0m | A     |    0.0s |    0.0s |     9.0s |     3.0s |     15.0s
-31 | ”µ Minibus[0m | A     |    0.0s |    3.0s |     9.0s |     1.0s |     15.0s
-32 | ”µ Minibus[0m | A     |    1.0s |    2.0s |     8.0s |     2.0s |     15.0s
-33 | ”µ Minibus[0m | A     |    0.0s |    3.0s |     9.0s |     1.0s |     15.0s
-34 | ”µ Minibus[0m | A     |    0.0s |    4.0s |     9.0s |     0.0s |     15.0s
-35 | ”µ Minibus[0m | A     |   28.0s |    5.0s |     5.0s |     3.0s |     44.0s
-36 | ”µ Minibus[0m | A     |    0.0s |    3.0s |     9.0s |     1.0s |     15.0s
-37 | ”µ Minibus[0m | A     |    1.0s |    2.0s |     8.0s |     1.0s |     15.0s
-38 | ”µ Minibus[0m | A     |    0.0s |    0.0s |     8.0s |     3.0s |     15.0s
-39 | ”µ Minibus[0m | A     |   28.0s |    5.0s |     5.0s |     3.0s |     44.0s
-40 | ”µ Minibus[0m | A     |   28.0s |    5.0s |     5.0s |     3.0s |     44.0s
-41 | Ÿ¡ Truck[0m | A     |   28.0s |    6.0s |     5.0s |     3.0s |     44.0s
-42 | Ÿ¡ Truck[0m | A     |   28.0s |    5.0s |     5.0s |     3.0s |     44.0s
-43 | Ÿ¡ Truck[0m | A     |   28.0s |    5.0s |     5.0s |     3.0s |     44.0s
-44 | Ÿ¡ Truck[0m | A     |   28.0s |    6.0s |     5.0s |     3.0s |     44.0s
-45 | Ÿ¡ Truck[0m | A     |   28.0s |    5.0s |     5.0s |     3.0s |     44.0s
-46 | Ÿ¡ Truck[0m | A     |   28.0s |    5.0s |     5.0s |     3.0s |     44.0s
-47 | Ÿ¡ Truck[0m | A     |   28.0s |    6.0s |     5.0s |     3.0s |     44.0s
-48 | Ÿ¡ Truck[0m | A     |   28.0s |    5.0s |     5.0s |     3.0s |     44.0s
-49 | Ÿ¡ Truck[0m | A     |   28.0s |    5.0s |     5.0s |     3.0s |     44.0s
-50 | Ÿ¡ Truck[0m | A     |   28.0s |    6.0s |     5.0s |     3.0s |     44.0s
+ 1 | Ÿ¢ Car[0m | A     |    0.0s |    3.0s |     6.0s |     1.0s |     10.0s
+ 2 | Ÿ¢ Car[0m | A     |    0.0s |    8.0s |     6.0s |    10.0s |     24.0s
+ 3 | Ÿ¢ Car[0m | A     |    0.0s |    2.0s |     6.0s |     0.0s |     10.0s
+ 4 | Ÿ¢ Car[0m | A     |    0.0s |    3.0s |     6.0s |     1.0s |     10.0s
+ 5 | Ÿ¢ Car[0m | A     |    0.0s |    2.0s |     6.0s |     1.0s |     10.0s
+ 6 | Ÿ¢ Car[0m | A     |    0.0s |    8.0s |     6.0s |    10.0s |     24.0s
+ 7 | Ÿ¢ Car[0m | A     |    0.0s |    0.0s |     6.0s |     3.0s |     10.0s
+ 8 | Ÿ¢ Car[0m | A     |    0.0s |    8.0s |     6.0s |    10.0s |     24.0s
+ 9 | Ÿ¢ Car[0m | A     |    0.0s |    1.0s |     6.0s |     3.0s |     10.0s
+10 | Ÿ¢ Car[0m | A     |    0.0s |    3.0s |     6.0s |     1.0s |     10.0s
+11 | Ÿ¢ Car[0m | A     |    0.0s |    8.0s |     6.0s |    10.0s |     24.0s
+12 | Ÿ¢ Car[0m | A     |    0.0s |    8.0s |     6.0s |    10.0s |     24.0s
+13 | Ÿ¢ Car[0m | A     |    0.0s |    2.0s |     6.0s |     0.0s |     10.0s
+14 | Ÿ¢ Car[0m | A     |    0.0s |    1.0s |     6.0s |     2.0s |     10.0s
+15 | Ÿ¢ Car[0m | A     |    0.0s |    1.0s |     6.0s |     2.0s |     10.0s
+16 | Ÿ¢ Car[0m | A     |    0.0s |    7.0s |     6.0s |    10.0s |     24.0s
+17 | Ÿ¢ Car[0m | A     |    0.0s |    7.0s |     6.0s |    10.0s |     24.0s
+18 | Ÿ¢ Car[0m | A     |    0.0s |    1.0s |     6.0s |     2.0s |     10.0s
+19 | Ÿ¢ Car[0m | A     |    1.0s |    3.0s |     5.0s |     0.0s |     10.0s
+20 | Ÿ¢ Car[0m | A     |    0.0s |    8.0s |     5.0s |    10.0s |     24.0s
+21 | Ÿ¢ Car[0m | A     |    1.0s |    1.0s |     5.0s |     1.0s |     10.0s
+22 | Ÿ¢ Car[0m | A     |    0.0s |    3.0s |     5.0s |     0.0s |     10.0s
+23 | Ÿ¢ Car[0m | A     |    0.0s |    0.0s |     5.0s |     2.0s |     10.0s
+24 | Ÿ¢ Car[0m | A     |    0.0s |    6.0s |     5.0s |    10.0s |     24.0s
+25 | Ÿ¢ Car[0m | A     |    0.0s |    3.0s |     5.0s |     0.0s |     10.0s
+26 | ”µ Minibus[0m | A     |    0.0s |    2.0s |     5.0s |     0.0s |     10.0s
+27 | ”µ Minibus[0m | A     |    0.0s |    1.0s |     5.0s |     2.0s |     10.0s
+28 | ”µ Minibus[0m | A     |    0.0s |    1.0s |     5.0s |     2.0s |     10.0s
+29 | ”µ Minibus[0m | A     |    0.0s |    2.0s |     5.0s |     1.0s |     10.0s
+30 | ”µ Minibus[0m | A     |    0.0s |    1.0s |     5.0s |     2.0s |     10.0s
+31 | ”µ Minibus[0m | A     |    0.0s |    2.0s |     5.0s |     0.0s |     10.0s
+32 | ”µ Minibus[0m | A     |    0.0s |    3.0s |     5.0s |     0.0s |     10.0s
+33 | ”µ Minibus[0m | A     |    0.0s |    7.0s |     5.0s |    10.0s |     24.0s
+34 | ”µ Minibus[0m | A     |    0.0s |    2.0s |     5.0s |     1.0s |     10.0s
+35 | ”µ Minibus[0m | A     |    0.0s |    1.0s |     5.0s |     2.0s |     10.0s
+36 | ”µ Minibus[0m | A     |    0.0s |    0.0s |     5.0s |     3.0s |     10.0s
+37 | ”µ Minibus[0m | A     |    0.0s |    3.0s |     5.0s |     0.0s |     10.0s
+38 | ”µ Minibus[0m | A     |    9.0s |   14.0s |     4.0s |     9.0s |     37.0s
+39 | ”µ Minibus[0m | A     |   23.0s |   17.0s |     4.0s |     3.0s |     48.0s
+40 | ”µ Minibus[0m | A     |    8.0s |   13.0s |     4.0s |     9.0s |     37.0s
+41 | Ÿ¡ Truck[0m | A     |   23.0s |   17.0s |     4.0s |     3.0s |     48.0s
+42 | Ÿ¡ Truck[0m | A     |   22.0s |   17.0s |     4.0s |     3.0s |     48.0s
+43 | Ÿ¡ Truck[0m | A     |   22.0s |   16.0s |     4.0s |     3.0s |     48.0s
+44 | Ÿ¡ Truck[0m | A     |   22.0s |   17.0s |     4.0s |     3.0s |     48.0s
+45 | Ÿ¡ Truck[0m | A     |   22.0s |   17.0s |     4.0s |     3.0s |     48.0s
+46 | Ÿ¡ Truck[0m | A     |   22.0s |   16.0s |     4.0s |     3.0s |     48.0s
+47 | Ÿ¡ Truck[0m | A     |    8.0s |   14.0s |     4.0s |     9.0s |     37.0s
+48 | Ÿ¡ Truck[0m | A     |   22.0s |   17.0s |     4.0s |     3.0s |     48.0s
+49 | Ÿ¡ Truck[0m | A     |    8.0s |   14.0s |     4.0s |     9.0s |     37.0s
+50 | Ÿ¡ Truck[0m | A     |   22.0s |   17.0s |     4.0s |     3.0s |     48.0s
